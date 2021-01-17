@@ -1,0 +1,66 @@
+app-id: io.github.SuperCollider
+runtime: org.kde.Platform
+runtime-version: '5.15'
+sdk: org.kde.Sdk
+command: scide
+rename-icon: sc_ide
+rename-desktop-file: SuperColliderIDE.desktop
+finish-args:
+- --share=network
+- --filesystem=home
+# Some SC UGens don't work on Wayland (e.g. MouseX, MouseY), so we have
+# to use X11. Upstream is working on properly supporting Wayland, see:
+# https://github.com/supercollider/supercollider/issues/4544
+- --share=ipc
+- --socket=x11
+# MIDI + ALSA
+- --device=all
+# Pipewire + JACK
+- --socket=system-bus
+- --filesystem=xdg-run/pipewire-0
+cleanup:
+- /lib/libjack*
+modules:
+- shared-modules/linux-audio/fftw3f.json
+- shared-modules/linux-audio/jack2.json
+- name: libevent
+  sources:
+  - type: archive
+    url: https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+    sha256: 92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb
+- name: avahi
+  cleanup:
+  - /bin/avahi*
+  config-opts:
+  - --with-distro=none
+  - --disable-libdaemon
+  - --disable-core-docs
+  - --disable-man-pages
+  - --disable-mono
+  - --disable-qt3
+  - --disable-qt4
+  - --disable-python
+  - --disable-gtk
+  - --disable-gtk3
+  sources:
+  - type: archive
+    url: http://avahi.org/download/avahi-0.8.tar.gz
+    sha256: 060309d7a333d38d951bc27598c677af1796934dbd98e1024e7ad8de798fedda
+
+- name: supercollider
+  builddir: true
+  buildsystem: cmake-ninja
+  config-opts:
+  - -DCMAKE_BUILD_TYPE=Release
+  - -DSUPERNOVA=On
+  - -DSC_USE_QTWEBENGINE=Off
+  # We only build SC IDE, so turn off the other backends
+  - -DSC_ED=Off
+  - -DSC_EL=Off
+  - -DSC_VIM=Off
+  sources:
+  - type: archive
+    url: https://github.com/supercollider/supercollider/releases/download/Version-3.11.2/SuperCollider-3.11.2-Source.tar.bz2
+    sha256: c22c32c6bc482671d4fb8f51672df712d97a6a6277235c4da2312910303a0506
+  - type: patch
+    path: 0001-Install-icons-into-share-icons-hicolor.patch
