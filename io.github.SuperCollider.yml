@@ -76,3 +76,15 @@ modules:
     sha256: c22c32c6bc482671d4fb8f51672df712d97a6a6277235c4da2312910303a0506
   - type: patch
     path: 0001-Install-icons-into-share-icons-hicolor.patch
+
+# FIXME: Turn sc3-plugins into an extension?
+- name: sc3-plugins
+  buildsystem: cmake-ninja
+  config-opts:
+  - -DCMAKE_BUILD_TYPE=Release
+  - -DSC_PATH=/app/include/SuperCollider/
+  - -DSUPERNOVA=On
+  sources:
+  - type: archive
+    url: https://github.com/supercollider/sc3-plugins/releases/download/Version-3.11.1/sc3-plugins-3.11.1-Source.tar.bz2
+    sha256: 263526bbb3c9fb1df24626ebf80bf68134449e0e757cfa3b464f81e32d89be44
