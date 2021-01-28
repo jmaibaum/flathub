@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>org.freedesktop.LinuxAudio.Plugins.EP_MK1</id>
+  <extends>org.freedesktop.LinuxAudio.BaseExtension</extends>
+  <name>EP-MK1</name>
+  <summary>A real-time physical model of an Electric Piano</summary>
+  <url type="homepage">https://patchstorage.com/ep-mk1/</url>
+  <project_license>BSD-3-Clause</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <update_contact>jmaibaum_AT_gmail.com</update_contact>
+</component>

@@ -1,0 +1,30 @@
+id: org.freedesktop.LinuxAudio.Plugins.EP_MK1
+branch: '20.08'
+runtime: org.freedesktop.LinuxAudio.BaseExtension
+runtime-version: '20.08'
+sdk: org.freedesktop.Sdk//20.08
+build-extension: true
+appstream-compose: false
+build-options:
+  prefx: /app/extensions/Plugins/EP_MK1
+modules:
+  - name: ep-mk1
+    buildsystem: simple
+    build-commands:
+      - install -d ${FLATPAK_DEST}/lxvst/EP-MK1
+      - install -m755 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/EP-MK1.so
+      - install -m644 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/EP-MK1.pd
+      - install -m644 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/EP-MK1.txt
+      - install -m644 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/param.change.pd
+      - install -m644 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/param.get.pd
+      - install -m644 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/param.set.pd
+      - install -m644 --target-directory=${FLATPAK_DEST}/lxvst/EP-MK1 EP-MK1/Infos.txt
+    post-install:
+      - install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.EP_MK1.metainfo.xml
+      - appstream-compose --basename=org.freedesktop.LinuxAudio.Plugins.EP_MK1 --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Plugins.EP_MK1
+    sources:
+      - type: archive
+        url: https://github.com/MikeMorenoDSP/EP-MK1/releases/download/v2.4/EP-MK1-Linux64.zip
+        sha256: e4ee704d6e74c8dd3f23fccc26fb8ab634333e8c14da915eb9e23e2774cca635
+      - type: file
+        path: org.freedesktop.LinuxAudio.Plugins.EP_MK1.metainfo.xml
